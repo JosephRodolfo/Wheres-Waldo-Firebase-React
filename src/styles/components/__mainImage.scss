@@ -1,12 +1,11 @@
 .main-image-container {
 
-    width: 1000px;
-    height: auto;
+    max-width: 1000px;
     background-color: blue;
     position: relative;
-    padding: 50px;
 }
 
 .main-image-container>img {
     width: 100%;
+    height: auto;
 }
