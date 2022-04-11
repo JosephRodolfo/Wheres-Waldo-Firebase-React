@@ -3,5 +3,5 @@ export const removePerson = (personToRemove, array) => {
 };
 
 export const getRandomPerson = (array) => {
-  return array[Math.floor(Math.random() * 12)];
+  return array[Math.floor(Math.random() * array.length)];
 };

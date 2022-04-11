@@ -2,13 +2,14 @@ import {MainImage} from '../src/components/MainImage';
 import {Header} from '../src/components/Header';
 import './styles/App.scss'
 import lastSupper from './assets/images/last_supper.jpg'
-import { firebase } from "../src/firebase/firebase";
+import { firebase, dbRef } from "../src/firebase/firebase";
+
 
 function App() {
   return (
     <div className="App">
-      <Header />
-      <MainImage source={lastSupper}/>
+      <Header database={dbRef}/>
+      <MainImage source={lastSupper} database={dbRef}/>
     </div>
   );
 }

@@ -4,6 +4,6 @@ export const getCoordsOnClick = (e) => {
     .getBoundingClientRect();
     
   const coords= [e.clientX - elementPosition.x, e.clientY - elementPosition.y];
-  console.log(coords);
+ // console.log(coords);
   return coords;
 };

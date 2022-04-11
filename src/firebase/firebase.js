@@ -15,12 +15,17 @@ const config = {
 //const database = firebase.database();
 const app = initializeApp(config);
 const db = getDatabase();
-const reference = ref(db, 'people');
-
-console.log(reference);
+//const reference = ref(db, 'people');
 
 
-onValue(reference, (snapshot)=>{
+let dbRef = ref(db)
 
-  const data  = snapshot.val();
-})
+
+
+
+// let database = onValue(reference, (snapshot)=>{
+
+//   const data  = snapshot.val();
+// return data});
+
+export {dbRef }
