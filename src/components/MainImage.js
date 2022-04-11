@@ -6,10 +6,11 @@ import { getRandomPerson, removePerson } from "../actions/peopleHandlers";
 import { checkForMatch } from "../actions/checkForMatch";
 import { getCoordsOnClick } from "../actions/getCoordsOnClick";
 import { get, child, ref } from "firebase/database";
-
+import { Stopwatch } from "./Stopwatch";
 export const MainImage = (props) => {
   const [hiddenOrNot, setGuessMenu] = useState(false);
   const [selectorCoords, setCoords] = useState([0, 0]);
+  const [wrongIndicator, setWrong] = useState([false]);
   const [listOfPeople, setPeople] = useState([
     "Bartholemew",
     "James_Minor",
@@ -27,6 +28,7 @@ export const MainImage = (props) => {
   ]);
 
   const [selectedRandomPerson, setRandom] = useState({ person: "" });
+  const [stopWatchStart, setStart] = useState(false);
 
   const [scoreList, setList] = useState([
     "Bartholemew",
@@ -48,7 +50,23 @@ export const MainImage = (props) => {
     let randomPerson = getRandomPerson(scoreList);
 
     setRandom({ person: randomPerson });
+    setStart(true);
   };
+
+  useEffect(() => {
+    document
+      .querySelector("#remaining-indicator")
+      .classList.add("correct-alert");
+    document.querySelector("#remaining-indicator").classList.remove("fade");
+
+    setTimeout(() => {
+      document
+        .querySelector("#remaining-indicator")
+        .classList.remove("correct-alert");
+      document.querySelector("#remaining-indicator").classList.add("fade");
+    }, 2000);
+    console.log("test");
+  }, [scoreList.length]);
 
   return (
     <div>
@@ -57,7 +75,8 @@ export const MainImage = (props) => {
       ) : (
         <h3>{selectedRandomPerson.person}</h3>
       )}
-
+      <Stopwatch start={stopWatchStart} />
+      <h4 id="remaining-indicator">People remaining: {scoreList.length}</h4>
       <div className="main-image-container">
         <img
           id="picture"
@@ -74,7 +93,7 @@ export const MainImage = (props) => {
               })
               .then((snapshot) => {
                 if (checkForMatch(getCoordsOnClick(e)[0], snapshot)) {
-                  alert("correct!");
+                  console.log("correct!");
                   let remainingPeople = removePerson(
                     selectedRandomPerson.person,
                     scoreList
@@ -82,20 +101,26 @@ export const MainImage = (props) => {
 
                   setList(remainingPeople);
                   let randomPerson = getRandomPerson(remainingPeople);
-                  console.log(randomPerson, remainingPeople.length )
                   setRandom({ person: randomPerson });
                 } else {
-                  alert("incorrect!");
+
+                  setWrong(true);
+                  setTimeout(()=>{
+
+                    setWrong(false);
+                  }, 1000)
+
+
+
                   return;
                 }
-              }).catch((error) => {
+              })
+              .catch((error) => {
                 console.error(error);
               });
-
-    
           }}
         />
-        {hiddenOrNot && <PersonSelector position={selectorCoords} />}
+        {hiddenOrNot && <PersonSelector wrong={wrongIndicator} position={selectorCoords} />}
       </div>
     </div>
   );
