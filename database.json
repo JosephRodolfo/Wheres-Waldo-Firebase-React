@@ -1,0 +1,17 @@
+{
+  "people": {
+    "Bartholemew": [33, 157],
+    "James-Minor": [158, 200],
+    "Andrew": [200, 242],
+    "Judas": [273, 312],
+    "Peter": [313, 341],
+    "John/Mary": [342, 428],
+    "Jesus": [429, 553],
+    "Thomas": [554, 595],
+    "James-Major": [596, 627],
+    "Phillip": [628, 720],
+    "Matthew": [721, 814],
+    "Thaddeus": [815, 880],
+    "Simon": [881, 997]
+  }
+}
