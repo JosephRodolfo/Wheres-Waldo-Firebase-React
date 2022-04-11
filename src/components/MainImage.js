@@ -11,25 +11,9 @@ export const MainImage = (props) => {
   const [hiddenOrNot, setGuessMenu] = useState(false);
   const [selectorCoords, setCoords] = useState([0, 0]);
   const [wrongIndicator, setWrong] = useState([false]);
-  const [listOfPeople, setPeople] = useState([
-    "Bartholemew",
-    "James_Minor",
-    "Andrew",
-    "Judas",
-    "Peter",
-    "John_Mary",
-    "Jesus",
-    "Thomas",
-    "James_Major",
-    "Phillip",
-    "Matthew",
-    "Thaddeus",
-    "Simon",
-  ]);
-
   const [selectedRandomPerson, setRandom] = useState({ person: "" });
   const [stopWatchStart, setStart] = useState(false);
-
+  const [winTime, setWinTime] = useState(0);
   const [scoreList, setList] = useState([
     "Bartholemew",
     "James_Minor",
@@ -65,17 +49,40 @@ export const MainImage = (props) => {
         .classList.remove("correct-alert");
       document.querySelector("#remaining-indicator").classList.add("fade");
     }, 2000);
-    console.log("test");
   }, [scoreList.length]);
+
+  useEffect(() => {
+    setList([
+      "Bartholemew",
+      "James_Minor",
+      "Andrew",
+      "Judas",
+      "Peter",
+      "John_Mary",
+      "Jesus",
+      "Thomas",
+      "James_Major",
+      "Phillip",
+      "Matthew",
+      "Thaddeus",
+      "Simon",
+    ]);
+  }, [hiddenOrNot]);
+
+  const passUpTime = (time) => {
+    if (time !== 0) {
+      setWinTime(time);
+    }
+  };
 
   return (
     <div>
-      {selectedRandomPerson.person === "" ? (
+      {selectedRandomPerson.person == "" ? (
         <button onClick={startGame}>Start</button>
       ) : (
         <h3>{selectedRandomPerson.person}</h3>
       )}
-      <Stopwatch start={stopWatchStart} />
+      <Stopwatch start={stopWatchStart} passUpTime={passUpTime} />
       <h4 id="remaining-indicator">People remaining: {scoreList.length}</h4>
       <div className="main-image-container">
         <img
@@ -93,7 +100,17 @@ export const MainImage = (props) => {
               })
               .then((snapshot) => {
                 if (checkForMatch(getCoordsOnClick(e)[0], snapshot)) {
-                  console.log("correct!");
+                  if (scoreList.length == 1) {
+                    let winTimeReal = winTime;
+                    console.log(winTimeReal);
+                    setStart(false);
+                    alert(`You win in ${winTime} seconds`);
+                    setRandom({ person: "" });
+                    setGuessMenu(false);
+
+                    return;
+                  }
+
                   let remainingPeople = removePerson(
                     selectedRandomPerson.person,
                     scoreList
@@ -103,14 +120,10 @@ export const MainImage = (props) => {
                   let randomPerson = getRandomPerson(remainingPeople);
                   setRandom({ person: randomPerson });
                 } else {
-
                   setWrong(true);
-                  setTimeout(()=>{
-
+                  setTimeout(() => {
                     setWrong(false);
-                  }, 1000)
-
-
+                  }, 1000);
 
                   return;
                 }
@@ -120,23 +133,10 @@ export const MainImage = (props) => {
               });
           }}
         />
-        {hiddenOrNot && <PersonSelector wrong={wrongIndicator} position={selectorCoords} />}
+        {hiddenOrNot && (
+          <PersonSelector wrong={wrongIndicator} position={selectorCoords} />
+        )}
       </div>
     </div>
   );
 };
-
-/*
-produce random name
-player clicks
-if match
-    remove random name from array
-        produce random name
-            repeat
- else 
-  player clicks
-
-
-
-
-*/

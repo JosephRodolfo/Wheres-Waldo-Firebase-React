@@ -8,6 +8,11 @@ export const Stopwatch = (props) => {
     const [running, setRunning] = useState(false);
 
     useEffect(() => {
+      props.passUpTime(time);
+
+      setTime(0);
+
+      
       setRunning(props.start);
   }, [props.start])
 
@@ -16,6 +21,7 @@ export const Stopwatch = (props) => {
     useEffect(() => {
       let interval;
       if (running) {
+
         interval = setInterval(() => {
           setTime((prevTime) => prevTime + 1);
         }, 1000);
