@@ -7,6 +7,7 @@ import { checkForMatch } from "../actions/checkForMatch";
 import { getCoordsOnClick } from "../actions/getCoordsOnClick";
 import { get, child, ref } from "firebase/database";
 import { Stopwatch } from "./Stopwatch";
+import { HeaderNav } from "./HeaderNav";
 export const MainImage = (props) => {
   const [hiddenOrNot, setGuessMenu] = useState(false);
   const [selectorCoords, setCoords] = useState([0, 0]);
@@ -77,6 +78,7 @@ export const MainImage = (props) => {
 
   return (
     <div>
+      <HeaderNav/>
       {selectedRandomPerson.person == "" ? (
         <button onClick={startGame}>Start</button>
       ) : (
