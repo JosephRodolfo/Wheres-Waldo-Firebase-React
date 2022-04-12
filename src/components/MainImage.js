@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { getRandomPerson, removePerson } from "../actions/peopleHandlers";
 import { checkForMatch } from "../actions/checkForMatch";
 import { getCoordsOnClick } from "../actions/getCoordsOnClick";
-import { get, child, ref, set, push} from "firebase/database";
+import { get, child, ref, set, push } from "firebase/database";
 import { Stopwatch } from "./Stopwatch";
 import { HeaderNav } from "./HeaderNav";
 import { HighScoreModal } from "./HighScoreModal";
@@ -85,38 +85,25 @@ export const MainImage = (props) => {
   };
 
   const submitHighScore = (data) => {
-    console.log(winTime, data);
-
-
-
-
-writeUserData(data, winTime);
-
-
-
-
-
+    writeUserData(data, winTime);
 
     function writeUserData(name, score) {
-      console.log(props.database)
-      push(child(props.database, 'highScores/player'), {
+      push(child(props.database, "highScores/player"), {
         name: name,
-        score : score
+        score: score,
       });
     }
-
-
-
-
-
-
-
-
-  }
+  };
 
   return (
     <div>
-      {showModal && <HighScoreModal submitHighScore={submitHighScore} closeModal={closeModal} score={winTime} />}
+      {showModal && (
+        <HighScoreModal
+          submitHighScore={submitHighScore}
+          closeModal={closeModal}
+          score={winTime}
+        />
+      )}
       <HeaderNav />
       {selectedRandomPerson.person == "" ? (
         <button onClick={startGame}>Start</button>
