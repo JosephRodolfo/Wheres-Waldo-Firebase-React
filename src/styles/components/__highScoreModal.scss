@@ -1,0 +1,14 @@
+.high-score-modal-container {
+  width: 40em;
+  height: 300px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background-color: cadetblue;
+  margin-left: -20em;
+  margin-top: -150px;
+  z-index: 22;
+}
+.high-score-modal-container button {
+  width: fit-content;
+}

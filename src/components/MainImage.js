@@ -8,6 +8,7 @@ import { getCoordsOnClick } from "../actions/getCoordsOnClick";
 import { get, child, ref } from "firebase/database";
 import { Stopwatch } from "./Stopwatch";
 import { HeaderNav } from "./HeaderNav";
+import { HighScoreModal } from "./HighScoreModal";
 export const MainImage = (props) => {
   const [hiddenOrNot, setGuessMenu] = useState(false);
   const [selectorCoords, setCoords] = useState([0, 0]);
@@ -15,20 +16,21 @@ export const MainImage = (props) => {
   const [selectedRandomPerson, setRandom] = useState({ person: "" });
   const [stopWatchStart, setStart] = useState(false);
   const [winTime, setWinTime] = useState(0);
+  const [showModal, setModal] = useState(false);
   const [scoreList, setList] = useState([
     "Bartholemew",
-    "James_Minor",
-    "Andrew",
-    "Judas",
-    "Peter",
-    "John_Mary",
-    "Jesus",
-    "Thomas",
-    "James_Major",
-    "Phillip",
-    "Matthew",
-    "Thaddeus",
-    "Simon",
+    // "James_Minor",
+    // "Andrew",
+    // "Judas",
+    // "Peter",
+    // "John_Mary",
+     "Jesus",
+    // "Thomas",
+    // "James_Major",
+    // "Phillip",
+    // "Matthew",
+    // "Thaddeus",
+    // "Simon",
   ]);
 
   const startGame = () => {
@@ -55,30 +57,35 @@ export const MainImage = (props) => {
   useEffect(() => {
     setList([
       "Bartholemew",
-      "James_Minor",
-      "Andrew",
-      "Judas",
-      "Peter",
-      "John_Mary",
+      // "James_Minor",
+      // "Andrew",
+      // "Judas",
+      // "Peter",
+      // "John_Mary",
       "Jesus",
-      "Thomas",
-      "James_Major",
-      "Phillip",
-      "Matthew",
-      "Thaddeus",
-      "Simon",
+      // "Thomas",
+      // "James_Major",
+      // "Phillip",
+      // "Matthew",
+      // "Thaddeus",
+      // "Simon",
     ]);
   }, [hiddenOrNot]);
 
   const passUpTime = (time) => {
     if (time !== 0) {
       setWinTime(time);
+      console.log(winTime);
+    } else {
+      setWinTime(0);
+
     }
   };
 
   return (
     <div>
-      <HeaderNav/>
+     {showModal &&  <HighScoreModal  score={winTime}/>}
+      <HeaderNav />
       {selectedRandomPerson.person == "" ? (
         <button onClick={startGame}>Start</button>
       ) : (
@@ -103,14 +110,13 @@ export const MainImage = (props) => {
               .then((snapshot) => {
                 if (checkForMatch(getCoordsOnClick(e)[0], snapshot)) {
                   if (scoreList.length == 1) {
-                    let winTimeReal = winTime;
-                    console.log(winTimeReal);
+
                     setStart(false);
-                    alert(`You win in ${winTime} seconds`);
                     setRandom({ person: "" });
                     setGuessMenu(false);
-
+                    setModal(true);
                     return;
+                    
                   }
 
                   let remainingPeople = removePerson(
