@@ -24,7 +24,7 @@ export const MainImage = (props) => {
     // "Judas",
     // "Peter",
     // "John_Mary",
-     "Jesus",
+    "Jesus",
     // "Thomas",
     // "James_Major",
     // "Phillip",
@@ -75,16 +75,22 @@ export const MainImage = (props) => {
   const passUpTime = (time) => {
     if (time !== 0) {
       setWinTime(time);
-      console.log(winTime);
     } else {
       setWinTime(0);
-
     }
   };
 
+  const closeModal = () => {
+    setModal(false);
+  };
+
+  const submitHighScore = (data) => {
+    console.log(winTime, data);
+  }
+
   return (
     <div>
-     {showModal &&  <HighScoreModal  score={winTime}/>}
+      {showModal && <HighScoreModal submitHighScore={submitHighScore} closeModal={closeModal} score={winTime} />}
       <HeaderNav />
       {selectedRandomPerson.person == "" ? (
         <button onClick={startGame}>Start</button>
@@ -110,13 +116,11 @@ export const MainImage = (props) => {
               .then((snapshot) => {
                 if (checkForMatch(getCoordsOnClick(e)[0], snapshot)) {
                   if (scoreList.length == 1) {
-
                     setStart(false);
                     setRandom({ person: "" });
                     setGuessMenu(false);
                     setModal(true);
                     return;
-                    
                   }
 
                   let remainingPeople = removePerson(
