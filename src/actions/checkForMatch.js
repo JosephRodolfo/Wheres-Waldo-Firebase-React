@@ -1,4 +1,3 @@
-import { onValue, ref } from "firebase/database";
 
 export const checkForMatch = (x, positionValue) => {
   console.log(x, positionValue)

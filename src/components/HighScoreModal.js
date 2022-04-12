@@ -17,6 +17,7 @@ export const HighScoreModal = (props) => {
         type="submit"
         onClick={(e) => {
           props.submitHighScore(name.name);
+          props.closeModal();
         }}
       >
         Submit
